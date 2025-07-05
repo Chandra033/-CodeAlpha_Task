@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome | Hotel Reservation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="welcome-bg">
+  <div class="welcome-container">
+    <h1>Welcome to Hotel Explorer</h1>
+    <p>Select your city to begin your stay</p>
+    <select id="citySelect">
+      <option value="Mumbai">Mumbai</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Chennai">Chennai</option>
+    </select>
+    <button onclick="proceedToBooking()">Continue</button>
+  </div>
+
+  <script>
+    function proceedToBooking() {
+      const city = document.getElementById("citySelect").value;
+      localStorage.setItem("selectedCity", city);
+      window.location.href = "booking.html";
+    }
+  </script>
+</body>
+</html>

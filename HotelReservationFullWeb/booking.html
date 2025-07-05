@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book a Room</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Book a Room in <span id="cityName"></span></h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Select Room Type</h2>
+      <select id="roomType">
+        <option value="Standard">Standard</option>
+        <option value="Deluxe">Deluxe</option>
+        <option value="Suite">Suite</option>
+      </select>
+      <button onclick="showRooms()">Show Rooms</button>
+      <div id="roomList"></div>
+    </section>
+
+    <section>
+      <h2>Your Details</h2>
+      <input type="text" id="guestName" placeholder="Your Name" />
+      <input type="date" id="checkIn" />
+      <input type="date" id="checkOut" />
+      <button onclick="bookSelectedRoom()">Book Room</button>
+    </section>
+
+    <section>
+      <h2>Booking Summary</h2>
+      <div id="bookingSummary"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

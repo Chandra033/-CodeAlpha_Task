@@ -1,0 +1,63 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #333;
+}
+
+header {
+  background: #0d6efd;
+  color: white;
+  text-align: center;
+  padding: 1em;
+}
+
+main {
+  padding: 2em;
+  display: grid;
+  gap: 2em;
+}
+
+section {
+  background: white;
+  padding: 1.5em;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+input, select, button {
+  display: block;
+  width: 100%;
+  padding: 0.6em;
+  margin-top: 0.5em;
+  font-size: 1em;
+}
+
+button {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #084298;
+}
+
+.welcome-bg {
+  background: url('https://images.unsplash.com/photo-1501117716987-c8e1ecb210d4') no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 3em;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
