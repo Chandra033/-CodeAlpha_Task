@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Grade Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #f0f4ff, #e5e5e5);
+      font-family: 'Inter', sans-serif;
+    }
+    .card {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+    }
+    .stats-value {
+      font-size: 1.7rem;
+      font-weight: 600;
+    }
+    .fade-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .btn-primary {
+      background-color: #4f46e5;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #4338ca;
+    }
+  </style>
+</head>
+<body class="p-4">
+  <div class="container">
+     <h1 class="mb-5 text-center fw-bold">🎓 Student Grade Manager</h1>
+
+     <div class="card p-4 mb-5">
+        <h4 class="mb-3">➕ Add Student</h4>
+        <form id="studentForm" class="row g-3">
+           <div class="col-md-6">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" id="name" class="form-control" required>
+           </div>
+           <div class="col-md-4">
+              <label for="grade" class="form-label">Grade</label>
+              <input type="number" id="grade" class="form-control" min="0" max="100" step="0.01" required>
+           </div>
+           <div class="col-md-2 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary w-100">Add</button>
+           </div>
+        </form>
+     </div>
+
+     <div class="card p-4 mb-4">
+        <h4 class="mb-3">📋 Students List</h4>
+        <div class="table-responsive">
+          <table class="table table-striped align-middle" id="studentsTable">
+             <thead>
+                <tr>
+                   <th>#</th>
+                   <th>Name</th>
+                   <th>Grade</th>
+                </tr>
+             </thead>
+             <tbody></tbody>
+          </table>
+        </div>
+     </div>
+
+     <div class="card p-4">
+        <h4 class="mb-3">📊 Summary</h4>
+        <div class="row text-center">
+          <div class="col-md-4 mb-3 mb-md-0">
+             <div>Average</div>
+             <div id="avgScore" class="stats-value">-</div>
+          </div>
+          <div class="col-md-4 mb-3 mb-md-0">
+             <div>Highest</div>
+             <div id="highScore" class="stats-value">-</div>
+             <div id="highStudent" class="text-muted small"></div>
+          </div>
+          <div class="col-md-4">
+             <div>Lowest</div>
+             <div id="lowScore" class="stats-value">-</div>
+             <div id="lowStudent" class="text-muted small"></div>
+          </div>
+        </div>
+     </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const students = JSON.parse(localStorage.getItem('students') || '[]');
+    const form = document.getElementById('studentForm');
+    const tableBody = document.querySelector('#studentsTable tbody');
+    const avgScore = document.getElementById('avgScore');
+    const highScore = document.getElementById('highScore');
+    const highStudent = document.getElementById('highStudent');
+    const lowScore = document.getElementById('lowScore');
+    const lowStudent = document.getElementById('lowStudent');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const grade = parseFloat(document.getElementById('grade').value);
+      if (!name || isNaN(grade)) return;
+      students.push({ name, grade });
+      localStorage.setItem('students', JSON.stringify(students));
+      document.getElementById('name').value = '';
+      document.getElementById('grade').value = '';
+      renderTable();
+      updateStats();
+    });
+
+    function renderTable() {
+      tableBody.innerHTML = '';
+      students.forEach((s, index) => {
+        const row = document.createElement('tr');
+        row.className = 'fade-in';
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${s.name}</td>
+          <td>${s.grade.toFixed(2)}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function updateStats() {
+      if (students.length === 0) {
+        avgScore.textContent = highScore.textContent = lowScore.textContent = '-';
+        highStudent.textContent = lowStudent.textContent = '';
+        return;
+      }
+      let total = 0, highest = -Infinity, lowest = Infinity;
+      let topStudent = '', lowStudentName = '';
+      students.forEach(s => {
+        total += s.grade;
+        if (s.grade > highest) { highest = s.grade; topStudent = s.name; }
+        if (s.grade < lowest) { lowest = s.grade; lowStudentName = s.name; }
+      });
+      avgScore.textContent = (total / students.length).toFixed(2);
+      highScore.textContent = highest.toFixed(2);
+      highStudent.textContent = by ${topStudent};
+      lowScore.textContent = lowest.toFixed(2);
+      lowStudent.textContent = by ${lowStudentName};
+    }
+
+    // Initialize on load
+    renderTable();
+    updateStats();
+  </script>
+</body>
+</html>
